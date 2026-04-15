@@ -1,7 +1,7 @@
 import { Typography, Box, Button, Alert } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 import { Link, useSearchParams } from 'react-router';
-import { TasksList } from '../features/tasks/TasksList';
+import { TaskList } from '../features/tasks/TaskList';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { useGetTasksQuery } from '../features/tasks/tasksApi';
 import type { Status } from '../types';
@@ -54,7 +54,7 @@ export function Home() {
       )}
 
       {!isLoading && !error && data && (
-        <TasksList tasks={data.data} />
+        <TaskList tasks={data.data} />
       )}
     </Box>
   );

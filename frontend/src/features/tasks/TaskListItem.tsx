@@ -6,6 +6,7 @@ import {
   Box,
   IconButton,
   Tooltip,
+  Checkbox,
 } from '@mui/material';
 import {
   PlayCircle as InProgressIcon,
@@ -16,11 +17,14 @@ import {
   Delete as DeleteIcon,
 } from '@mui/icons-material';
 import { Link } from 'react-router';
-import { useUpdateTaskMutation, useDeleteTaskMutation } from './tasksApi';
 import type { Task, Status } from '../../types';
 
-interface TaskItemProps {
+interface TaskListItemProps {
   task: Task;
+  isSelected?: boolean;
+  onClick?: () => void;
+  onStatusChange?: (taskId: string, currentStatus: Status) => void;
+  onDelete?: (taskId: string) => void;
 }
 
 const statusConfig: Record<Status, { icon: React.ReactNode; color: 'default' | 'primary' | 'success' | 'error' }> = {
@@ -37,24 +41,17 @@ const statusLabels: Record<Status, string> = {
   CANCELLED: 'Cancelled',
 };
 
-export function TaskItem({ task }: TaskItemProps) {
-  const [updateTask] = useUpdateTaskMutation();
-  const [deleteTask] = useDeleteTaskMutation();
+export function TaskListItem({ task, isSelected = false, onClick, onStatusChange, onDelete }: TaskListItemProps) {
   const { icon, color } = statusConfig[task.status];
 
   const handleStatusChange = () => {
-    const statusOrder: Status[] = ['TODO', 'IN_PROGRESS', 'DONE', 'CANCELLED'];
-    const currentIndex = statusOrder.indexOf(task.status);
-    const nextStatus = statusOrder[(currentIndex + 1) % statusOrder.length];
-    updateTask({ id: task.id, status: nextStatus });
+    onStatusChange?.(task.id, task.status);
   };
 
   const handleDelete = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (confirm('Are you sure you want to delete this task?')) {
-      deleteTask(task.id);
-    }
+    onDelete?.(task.id);
   };
 
   const scheduledDate = new Date(task.scheduledDate).toLocaleDateString();
@@ -89,7 +86,16 @@ export function TaskItem({ task }: TaskItemProps) {
         </Box>
       }
     >
-      <ListItemButton component={Link} to={`/task/${task.id}`}>
+      <ListItemButton component={Link} to={`/task/${task.id}`} onClick={onClick}>
+        <Checkbox
+          edge="start"
+          checked={isSelected}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+          sx={{ mr: 1 }}
+        />
         <Tooltip title={`Change status (current: ${statusLabels[task.status]})`}>
           <IconButton
             edge="start"
