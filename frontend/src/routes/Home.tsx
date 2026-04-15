@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Typography, Box, Button, Alert } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 import { Link, useSearchParams } from 'react-router';
@@ -9,8 +10,15 @@ import type { Status } from '../types';
 export function Home() {
   const [searchParams] = useSearchParams();
   const status = searchParams.get('status') as Status | null;
+  const [selectedTasks, setSelectedTasks] = useState<string[]>([]);
 
   const { data, isLoading, error } = useGetTasksQuery(status ? { status } : {});
+
+  const handleTaskSelect = (taskId: string) => {
+    setSelectedTasks((prev) =>
+      prev.includes(taskId) ? prev.filter((id) => id !== taskId) : [...prev, taskId]
+    );
+  };
 
   const getTitle = () => {
     if (!status) return 'All Tasks';
@@ -54,7 +62,11 @@ export function Home() {
       )}
 
       {!isLoading && !error && data && (
-        <TaskList tasks={data.data} />
+        <TaskList
+          tasks={data.data}
+          selectedTasks={selectedTasks}
+          onTaskSelect={handleTaskSelect}
+        />
       )}
     </Box>
   );

@@ -87,15 +87,14 @@ export function TaskListItem({ task, isSelected = false, onClick, onStatusChange
       }
     >
       <ListItemButton component={Link} to={`/task/${task.id}`} onClick={onClick}>
-        <Checkbox
-          edge="start"
-          checked={isSelected}
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-          }}
-          sx={{ mr: 1 }}
-        />
+        <Box onClick={(e) => e.stopPropagation()}>
+          <Checkbox
+            edge="start"
+            checked={isSelected}
+            onChange={() => onClick?.()}
+            sx={{ mr: 1 }}
+          />
+        </Box>
         <Tooltip title={`Change status (current: ${statusLabels[task.status]})`}>
           <IconButton
             edge="start"
