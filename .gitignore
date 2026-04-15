@@ -3,3 +3,4 @@ frontend/.env
 frontend/test-results/.last-run.json
 frontend/playwright-report/*
 frontend/screenshots/*
+frontend/tsconfig.tsbuildinfo
