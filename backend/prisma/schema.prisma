@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Task {
+  id            String   @id @default(uuid())
+  title         String   // COLLATE NOCASE for case-insensitive search
+  description   String   @default("")  // COLLATE NOCASE for case-insensitive search
+  status        Status   @default(TODO)
+  scheduledDate DateTime // Stored as UTC timestamp
+  tags          String   // JSON array, COLLATE NOCASE for case-insensitive tag search (e.g., '["urgent","work"]')
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+enum Status {
+  TODO
+  IN_PROGRESS
+  DONE
+  CANCELLED
+}
