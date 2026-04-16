@@ -12,6 +12,7 @@ import {
 import {
   Inbox as InboxIcon,
   CalendarToday as TodayIcon,
+  WatchLater,
   Folder as AllIcon,
   Assignment as TodoIcon,
   PlayCircle as InProgressIcon,
@@ -36,6 +37,7 @@ interface SidebarItem {
 const sidebarItems: SidebarItem[] = [
   { label: 'Inbox', view: 'inbox', icon: <InboxIcon />, href: '/app/inbox' },
   { label: 'Today', view: 'today', icon: <TodayIcon />, href: '/app/today' },
+  { label: 'Anytime', view: 'anytime', icon: <WatchLater />, href: '/app/anytime' },
   { label: 'All Tasks', view: 'all', icon: <AllIcon />, href: '/app/home' },
   { label: 'To Do', view: 'todo', icon: <TodoIcon />, href: '/app/home?status=TODO' },
   { label: 'In Progress', view: 'in_progress', icon: <InProgressIcon />, href: '/app/home?status=IN_PROGRESS' },

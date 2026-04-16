@@ -14,7 +14,9 @@ export const tasksApi = createApi({
         const params = new URLSearchParams();
         if (filters) {
           if (filters.status) params.append('status', filters.status);
-          if (filters.scheduledDate) params.append('scheduledDate', filters.scheduledDate);
+          if (filters.scheduledDate !== undefined) {
+            params.append('scheduledDate', filters.scheduledDate === null ? 'null' : filters.scheduledDate);
+          }
           if (filters.tag) params.append('tag', filters.tag);
           if (filters.search) params.append('search', filters.search);
           if (filters.inInbox !== undefined) params.append('inInbox', String(filters.inInbox));

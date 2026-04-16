@@ -131,23 +131,28 @@ export class TaskService {
       where.status = status.toUpperCase();
     }
 
-    if (scheduledDate) {
-      // Validate date format
-      const date = new Date(scheduledDate);
-      if (isNaN(date.getTime())) {
-        throw new ValidationError({ scheduledDate: 'Invalid date format' });
-      }
-      
-      // Filter by date only, ignoring time
-      const startOfDay = new Date(date);
-      startOfDay.setUTCHours(0, 0, 0, 0);
-      const endOfDay = new Date(date);
-      endOfDay.setUTCHours(23, 59, 59, 999);
+    if (scheduledDate !== undefined) {
+      if (scheduledDate === null) {
+        // Filter to tasks with NO scheduled date (Anytime view)
+        where.scheduledDate = null;
+      } else {
+        // Validate date format
+        const date = new Date(scheduledDate);
+        if (isNaN(date.getTime())) {
+          throw new ValidationError({ scheduledDate: 'Invalid date format' });
+        }
+        
+        // Filter by date only, ignoring time
+        const startOfDay = new Date(date);
+        startOfDay.setUTCHours(0, 0, 0, 0);
+        const endOfDay = new Date(date);
+        endOfDay.setUTCHours(23, 59, 59, 999);
 
-      where.scheduledDate = {
-        gte: startOfDay,
-        lte: endOfDay,
-      };
+        where.scheduledDate = {
+          gte: startOfDay,
+          lte: endOfDay,
+        };
+      }
     }
 
     if (tag) {

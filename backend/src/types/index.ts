@@ -31,7 +31,7 @@ export interface UpdateTaskInput {
 }
 
 export interface ListTasksFilters {
-  scheduledDate?: string;
+  scheduledDate?: string | null;
   status?: Status;
   tag?: string;
   search?: string;

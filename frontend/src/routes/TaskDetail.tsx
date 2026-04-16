@@ -42,7 +42,7 @@ export function TaskDetail() {
       setDeleteError(null);
       await deleteTask(taskId).unwrap();
       navigate('/');
-    } catch (err) {
+    } catch {
       setDeleteError('Failed to delete task. Please try again.');
     }
   };

@@ -31,7 +31,7 @@ export interface UpdateTaskInput {
 }
 
 export interface ListTasksFilters {
-  scheduledDate?: string;
+  scheduledDate?: string | null;
   status?: Status;
   tag?: string;
   search?: string;
@@ -56,4 +56,4 @@ export interface PaginatedResponse<T> {
   };
 }
 
-export type TaskView = 'all' | 'inbox' | 'today' | 'todo' | 'in_progress' | 'done' | 'cancelled';
+export type TaskView = 'all' | 'inbox' | 'today' | 'anytime' | 'todo' | 'in_progress' | 'done' | 'cancelled';

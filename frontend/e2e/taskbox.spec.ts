@@ -1,14 +1,14 @@
 import { test, expect } from '@playwright/test';
 
 // Helper to ensure sidebar is closed
-async function ensureSidebarClosed(page: any) {
+async function ensureSidebarClosed(page: import('@playwright/test').Page) {
   // Press Escape to close any open modal/sidebar
   await page.keyboard.press('Escape');
   await page.waitForTimeout(200);
 }
 
 // Helper to open sidebar and click a link
-async function clickSidebarLink(page: any, linkName: RegExp | string) {
+async function clickSidebarLink(page: import('@playwright/test').Page, linkName: RegExp | string) {
   await ensureSidebarClosed(page);
   // Open sidebar using the menu icon button
   await page.locator('button[aria-label="toggle sidebar"]').click();

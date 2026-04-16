@@ -60,7 +60,10 @@ export class TaskController {
   static async listTasks(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const filters: ListTasksFilters = {};
-      if (req.query.scheduledDate) filters.scheduledDate = req.query.scheduledDate as string;
+      if (req.query.scheduledDate !== undefined) {
+        const dateValue = req.query.scheduledDate as string;
+        filters.scheduledDate = dateValue === 'null' ? null : dateValue;
+      }
       if (req.query.status) filters.status = req.query.status as Status;
       if (req.query.tag) filters.tag = req.query.tag as string;
       if (req.query.search) filters.search = req.query.search as string;
