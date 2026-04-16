@@ -14,8 +14,9 @@ function normalizeTags(tags: string[] = []): string[] {
     });
 }
 
-function convertToUTC(dateString: string): Date {
+function convertToUTC(dateString: string | null): Date | null {
   // Parse the date string and convert to UTC
+  if (dateString === null) return null;
   const date = new Date(dateString);
   return date;
 }
@@ -26,7 +27,7 @@ function toTaskDTO(dbTask: any): Task {
     title: dbTask.title,
     description: dbTask.description,
     status: dbTask.status as Status,
-    scheduledDate: dbTask.scheduledDate.toISOString(),
+    scheduledDate: dbTask.scheduledDate?.toISOString() ?? null,
     tags: JSON.parse(dbTask.tags),
     inInbox: dbTask.inInbox,
     createdAt: dbTask.createdAt.toISOString(),
@@ -44,7 +45,7 @@ export class TaskService {
         title: data.title,
         description: data.description,  // Always a string
         status: data.status ?? 'TODO',
-        scheduledDate: scheduledDateUTC,
+        scheduledDate: scheduledDateUTC,  // null or Date
         tags: JSON.stringify(normalizedTags),
         inInbox: data.inInbox ?? false,
       },
@@ -81,7 +82,7 @@ export class TaskService {
         title: data.title,
         description: data.description,  // Always a string
         status: data.status,
-        scheduledDate: scheduledDateUTC,
+        scheduledDate: scheduledDateUTC,  // null or Date
         tags: JSON.stringify(normalizedTags),
         inInbox: data.inInbox ?? false,
       },
@@ -218,7 +219,7 @@ export class TaskService {
       };
       // Include sort field value in cursor
       if (sortField === 'scheduledDate') {
-        cursorData.sortField = lastTask.scheduledDate.toISOString();
+        cursorData.sortField = lastTask.scheduledDate?.toISOString() ?? null;
       } else if (sortField === 'createdAt') {
         cursorData.sortField = lastTask.createdAt.toISOString();
       } else if (sortField === 'title') {

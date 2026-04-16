@@ -48,19 +48,26 @@ export const tasksApi = createApi({
         body: patch,
       }),
       async onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(
+        // Optimistically update both the list and the individual task
+        const patchListResult = dispatch(
           tasksApi.util.updateQueryData('getTasks', undefined, (draft) => {
             const task = draft.data.find((t) => t.id === id);
             if (task) Object.assign(task, patch);
           })
         );
+        const patchTaskResult = dispatch(
+          tasksApi.util.updateQueryData('getTask', id, (draft) => {
+            Object.assign(draft, patch);
+          })
+        );
         try {
           await queryFulfilled;
         } catch {
-          patchResult.undo();
+          patchListResult.undo();
+          patchTaskResult.undo();
         }
       },
-      invalidatesTags: (_result, _error, { id }) => [{ type: 'Task', id }],
+      invalidatesTags: (_result, _error, { id }) => [{ type: 'Task', id }, 'Task'],
     }),
     deleteTask: builder.mutation<void, string>({
       query: (id) => ({

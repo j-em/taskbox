@@ -45,7 +45,7 @@ export function TaskEditor() {
           title: existingTask.title,
           description: existingTask.description || "",
           status: existingTask.status,
-          scheduledDate: existingTask.scheduledDate.split("T")[0],
+          scheduledDate: existingTask.scheduledDate?.split("T")[0] ?? null,
           tags: existingTask.tags,
           inInbox: existingTask.inInbox,
         }
@@ -53,7 +53,7 @@ export function TaskEditor() {
           title: "",
           description: "",
           status: "TODO",
-          scheduledDate: getLocalDateString(),
+          scheduledDate: searchParams.get("inbox") === "true" ? null : getLocalDateString(),
           tags: [],
           inInbox: searchParams.get("inbox") === "true",
         };
@@ -65,7 +65,7 @@ export function TaskEditor() {
       title: data.title.trim(),
       description: data.description.trim() || undefined,
       status: data.status,
-      scheduledDate: new Date(data.scheduledDate).toISOString(),
+      scheduledDate: data.scheduledDate ? new Date(data.scheduledDate).toISOString() : null,
       tags: data.tags,
       inInbox: data.inInbox ?? false,
     };
@@ -73,10 +73,12 @@ export function TaskEditor() {
     try {
       if (isEditing && taskId) {
         await updateTask({ id: taskId, ...taskData }).unwrap();
+        // Navigate back to task detail after update
+        navigate(`/app/task/${taskId}`);
       } else {
         await addTask(taskData).unwrap();
+        navigate("/app");
       }
-      navigate("/app");
     } catch {
       setError("Failed to save task. Please try again.");
     }

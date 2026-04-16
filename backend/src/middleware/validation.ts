@@ -47,8 +47,10 @@ const createTaskSchema = z.object({
     .max(1000, 'Description must be at most 1000 characters')
     .default(''),  // Undefined → "" automatically
   status: statusSchema.default('TODO'),
-  scheduledDate: z.string()
-    .refine((val) => !isNaN(Date.parse(val)), 'Invalid ISO 8601 date format'),
+  scheduledDate: z.union([
+    z.string().refine((val) => !isNaN(Date.parse(val)), 'Invalid ISO 8601 date format'),
+    z.null(),
+  ]).optional().default(null),
   tags: z.array(tagSchema)
     .max(10, 'Maximum 10 tags allowed')
     .optional()
@@ -66,8 +68,10 @@ const updateTaskSchema = z.object({
     .max(1000, 'Description must be at most 1000 characters'),
     // Required, non-nullable, no transform needed
   status: statusSchema,
-  scheduledDate: z.string()
-    .refine((val) => !isNaN(Date.parse(val)), 'Invalid ISO 8601 date format'),
+  scheduledDate: z.union([
+    z.string().refine((val) => !isNaN(Date.parse(val)), 'Invalid ISO 8601 date format'),
+    z.null(),
+  ]),
   tags: z.array(tagSchema)
     .max(10, 'Maximum 10 tags allowed'),
   inInbox: z.boolean().optional(),

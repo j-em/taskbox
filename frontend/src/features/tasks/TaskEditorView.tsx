@@ -27,7 +27,7 @@ export interface TaskFormData {
   title: string;
   description: string;
   status: Status;
-  scheduledDate: string;
+  scheduledDate: string | null;
   tags: string[];
   inInbox?: boolean;
 }
@@ -66,11 +66,6 @@ export function TaskEditorView({
 
     if (!formData.title.trim()) {
       setValidationError('Title is required');
-      return;
-    }
-
-    if (!formData.scheduledDate) {
-      setValidationError('Scheduled date is required');
       return;
     }
 
@@ -178,11 +173,12 @@ export function TaskEditorView({
                 fullWidth
                 label="Scheduled Date"
                 type="date"
-                value={formData.scheduledDate}
-                onChange={(e) => setFormData((prev) => ({ ...prev, scheduledDate: e.target.value }))}
-                required
+                value={formData.scheduledDate ?? ''}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setFormData((prev) => ({ ...prev, scheduledDate: value || null }));
+                }}
                 slotProps={{ inputLabel: { shrink: true } }}
-                error={!formData.scheduledDate && validationError !== null}
               />
             </Grid>
 

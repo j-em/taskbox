@@ -11,7 +11,7 @@ model Task {
   title         String   // COLLATE NOCASE for case-insensitive search
   description   String   @default("")  // COLLATE NOCASE for case-insensitive search
   status        Status   @default(TODO)
-  scheduledDate DateTime // Stored as UTC timestamp
+  scheduledDate DateTime? // Stored as UTC timestamp, optional
   tags          String   // JSON array, COLLATE NOCASE for case-insensitive tag search (e.g., '["urgent","work"]')
   inInbox       Boolean  @default(false) // Whether the task is in the inbox (not yet refined)
   createdAt     DateTime @default(now())

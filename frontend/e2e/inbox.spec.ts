@@ -80,7 +80,7 @@ test('can quick add a task to inbox', async ({ page }) => {
   // Create the task
   await page.getByRole('button', { name: /create/i }).click();
   
-  // Verify redirect to home
+  // Verify redirect to home (app navigates to /app which redirects to /app/home)
   await page.waitForURL('/app');
   
   // Go to inbox view to verify task appears

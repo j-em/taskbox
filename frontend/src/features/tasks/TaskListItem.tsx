@@ -55,7 +55,9 @@ export function TaskListItem({ task, isSelected = false, onClick, onStatusChange
     onDelete?.(task.id);
   };
 
-  const scheduledDate = new Date(task.scheduledDate).toLocaleDateString();
+  const scheduledDate = task.scheduledDate
+    ? new Date(task.scheduledDate).toLocaleDateString()
+    : null;
 
   return (
     <ListItem
@@ -132,7 +134,7 @@ export function TaskListItem({ task, isSelected = false, onClick, onStatusChange
                 color={color}
                 size="small"
               />
-              <span>{scheduledDate}</span>
+              {scheduledDate && <span>{scheduledDate}</span>}
               {task.tags.length > 0 && (
                 <Box sx={{ display: 'flex', gap: 0.5 }}>
                   {task.tags.slice(0, 3).map((tag) => (

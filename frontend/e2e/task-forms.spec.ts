@@ -19,9 +19,10 @@ test('task form shows validation errors for required fields', async ({ page }) =
   const titleInput = page.getByLabel(/title/i);
   const dateInput = page.getByLabel(/scheduled date/i);
 
-  // Verify required attributes are present (HTML5 validation)
+  // Verify title has required attribute (HTML5 validation)
+  // Note: scheduled date is now optional, so it should not have required attribute
   await expect(titleInput).toHaveAttribute('required');
-  await expect(dateInput).toHaveAttribute('required');
+  await expect(dateInput).not.toHaveAttribute('required');
 
   // Fill the form with valid data
   await titleInput.fill('Valid Task');

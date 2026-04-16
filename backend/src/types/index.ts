@@ -5,7 +5,7 @@ export interface Task {
   title: string;
   description: string | null;
   status: Status;
-  scheduledDate: string;
+  scheduledDate: string | null;
   tags: string[];
   inInbox: boolean;
   createdAt: string;
@@ -16,7 +16,7 @@ export interface CreateTaskInput {
   title: string;
   description?: string;
   status?: Status;
-  scheduledDate: string;
+  scheduledDate: string | null;
   tags?: string[];
   inInbox?: boolean;
 }
@@ -25,7 +25,7 @@ export interface UpdateTaskInput {
   title: string;
   description: string;
   status: Status;
-  scheduledDate: string;
+  scheduledDate: string | null;
   tags: string[];
   inInbox?: boolean;
 }

@@ -86,17 +86,22 @@ test('change task status via dropdown in edit form', async ({ page }) => {
   await page.getByRole('option', { name: 'DONE' }).click();
   await page.waitForTimeout(300);
 
-  // Update the task
+  // Update the task - now navigates to task detail page after update
   await page.locator('button:has-text("Update")').click();
-  await expect(page).toHaveURL(/\/app\/home/);
+  await expect(page).toHaveURL(/\/app\/task\/[\w-]+/);
+  
+  // Verify status shows DONE on detail page
+  await expect(page.getByText('DONE').first()).toBeVisible();
 
-  // Verify task now shows DONE status in the list
+  // Navigate to home to verify task shows DONE status in the list
+  await page.goto('/app/home');
+  await page.waitForTimeout(500);
   const updatedItem = page.locator('li', { hasText: taskName }).first();
   await expect(updatedItem.getByText('DONE')).toBeVisible();
 
   // Click to view detail and verify status
   await updatedItem.click();
-  await expect(page).toHaveURL(/\/task\/[\w-]+/);
+  await expect(page).toHaveURL(/\/app\/task\/[\w-]+/);
   await expect(page.getByText('DONE').first()).toBeVisible();
 
   // Navigate back and clean up

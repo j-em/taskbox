@@ -125,7 +125,9 @@ export function TaskDetail() {
               Scheduled Date
             </Typography>
             <Typography variant="body1">
-              {new Date(task.scheduledDate).toLocaleDateString()}
+              {task.scheduledDate
+                ? new Date(task.scheduledDate).toLocaleDateString()
+                : 'Not scheduled'}
             </Typography>
           </Grid>
 

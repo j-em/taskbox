@@ -131,17 +131,9 @@ test('edit task tags - add and remove', async ({ page }) => {
   await tagInput.press('Enter');
   await page.waitForTimeout(300);
 
-  // Update the task
+  // Update the task - now navigates to task detail page after update
   await page.locator('button:has-text("Update")').click();
-
-  // Form redirects to home page after update
-  await expect(page).toHaveURL(/\/app\/home/);
-
-  // Find the task and click to see details with updated tags
-  const updatedTaskItem = page.locator('li', { hasText: taskName }).first();
-  await expect(updatedTaskItem).toBeVisible();
-  await updatedTaskItem.click();
-  await expect(page).toHaveURL(/\/task\/[\w-]+/);
+  await expect(page).toHaveURL(/\/app\/task\/[\w-]+/);
 
   // Verify the updated tags are visible
   // 'new-tag' should be present (we added it)
