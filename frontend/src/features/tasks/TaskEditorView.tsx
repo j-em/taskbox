@@ -16,8 +16,8 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { ArrowBack as BackIcon, Delete as DeleteIcon } from '@mui/icons-material';
-import { LoadingSpinner } from './LoadingSpinner';
-import type { Status } from '../types';
+import { LoadingSpinner } from '../../components/LoadingSpinner';
+import type { Status } from '../../types';
 
 const statuses: Status[] = ['TODO', 'IN_PROGRESS', 'DONE', 'CANCELLED'];
 

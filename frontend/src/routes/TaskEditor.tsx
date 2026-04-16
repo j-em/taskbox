@@ -6,7 +6,7 @@ import {
   useUpdateTaskMutation,
   useDeleteTaskMutation,
 } from "../features/tasks/tasksApi";
-import { TaskEditorView, TaskFormData } from "../components/TaskEditorView";
+import { TaskEditorView, TaskFormData } from "../features/tasks/TaskEditorView";
 
 export function TaskEditor() {
   const { taskId } = useParams<{ taskId: string }>();
