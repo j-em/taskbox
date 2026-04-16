@@ -29,6 +29,14 @@ This project is a demo/prototype and intentionally omits features that would be 
 - **Admin Dashboard** – No user management, system metrics
 - **CI/CD Pipeline** – No automated testing, building, or deployment workflows
 
+## Screenshots
+
+| Main View (Light) | Create Task | Dark Theme |
+|:---:|:---:|:---:|
+| ![Main View](./frontend/screenshots/home-all/light/desktop.png) | ![Create Task](./frontend/screenshots/task-create/light/desktop.png) | ![Dark Theme](./frontend/screenshots/home-all/dark/desktop.png) |
+
+*Screenshots are generated manually. To update them, run `npm run generate-screenshots` in the `frontend/` directory.*
+
 ## Deployment
 
 - **Frontend** – Statically exported and can be hosted on any static hosting service (GitHub Pages, Cloudflare Pages, Vercel, Netlify, or similar)
