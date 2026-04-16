@@ -8,6 +8,18 @@ import {
 } from "../features/tasks/tasksApi";
 import { TaskEditorView, TaskFormData } from "../features/tasks/TaskEditorView";
 
+/**
+ * Get today's date in YYYY-MM-DD format using local timezone
+ * Fixes timezone bug where toISOString() returns UTC date
+ */
+function getLocalDateString(date: Date = new Date()): string {
+  return new Intl.DateTimeFormat('en-CA', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(date);
+}
+
 export function TaskEditor() {
   const { taskId } = useParams<{ taskId: string }>();
   const navigate = useNavigate();
@@ -41,7 +53,7 @@ export function TaskEditor() {
           title: "",
           description: "",
           status: "TODO",
-          scheduledDate: new Date().toISOString().split("T")[0],
+          scheduledDate: getLocalDateString(),
           tags: [],
           inInbox: searchParams.get("inbox") === "true",
         };

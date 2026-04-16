@@ -56,4 +56,4 @@ export interface PaginatedResponse<T> {
   };
 }
 
-export type TaskView = 'all' | 'inbox' | 'todo' | 'in_progress' | 'done' | 'cancelled';
+export type TaskView = 'all' | 'inbox' | 'today' | 'todo' | 'in_progress' | 'done' | 'cancelled';

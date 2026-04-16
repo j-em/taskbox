@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import {
   Inbox as InboxIcon,
+  CalendarToday as TodayIcon,
   Folder as AllIcon,
   Assignment as TodoIcon,
   PlayCircle as InProgressIcon,
@@ -34,6 +35,7 @@ interface SidebarItem {
 
 const sidebarItems: SidebarItem[] = [
   { label: 'Inbox', view: 'inbox', icon: <InboxIcon />, href: '/app/inbox' },
+  { label: 'Today', view: 'today', icon: <TodayIcon />, href: '/app/today' },
   { label: 'All Tasks', view: 'all', icon: <AllIcon />, href: '/app/home' },
   { label: 'To Do', view: 'todo', icon: <TodoIcon />, href: '/app/home?status=TODO' },
   { label: 'In Progress', view: 'in_progress', icon: <InProgressIcon />, href: '/app/home?status=IN_PROGRESS' },
