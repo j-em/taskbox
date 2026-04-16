@@ -11,17 +11,17 @@ test('select and deselect multiple tasks using checkboxes', async ({ page }) => 
   const taskName2 = `Selection Test 2 ${Date.now()}`;
   const taskName3 = `Selection Test 3 ${Date.now()}`;
 
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(500);
 
   // Create 3 tasks
   for (const taskName of [taskName1, taskName2, taskName3]) {
-    await page.locator('a:has-text("ADD")').click();
+    await page.getByRole('link', { name: 'Add Task' }).click();
     await page.getByLabel(/title/i).fill(taskName);
     await page.getByLabel(/scheduled date/i).fill(new Date().toISOString().split('T')[0]);
     await page.locator('button:has-text("Create")').click();
-    await expect(page).toHaveURL('/');
+    await expect(page).toHaveURL(/\/app\/home/);
     await expect(page.getByText(taskName).first()).toBeVisible({ timeout: 5000 });
   }
 

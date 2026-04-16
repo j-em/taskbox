@@ -53,6 +53,7 @@ const createTaskSchema = z.object({
     .max(10, 'Maximum 10 tags allowed')
     .optional()
     .default([]),
+  inInbox: z.boolean().optional().default(false),
 });
 
 // Update task schema - all fields required
@@ -69,6 +70,7 @@ const updateTaskSchema = z.object({
     .refine((val) => !isNaN(Date.parse(val)), 'Invalid ISO 8601 date format'),
   tags: z.array(tagSchema)
     .max(10, 'Maximum 10 tags allowed'),
+  inInbox: z.boolean().optional(),
 });
 
 export function validateCreateTask(req: Request, res: Response, next: NextFunction): void {

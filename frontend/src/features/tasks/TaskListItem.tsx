@@ -15,6 +15,7 @@ import {
   CircleOutlined as TodoIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
+  Inbox as InboxIcon,
 } from '@mui/icons-material';
 import { Link } from 'react-router';
 import type { Task, Status } from '../../types';
@@ -67,7 +68,7 @@ export function TaskListItem({ task, isSelected = false, onClick, onStatusChange
               edge="end"
               aria-label="edit"
               component={Link}
-              to={`/task/${task.id}/edit`}
+              to={`/app/task/${task.id}/edit`}
               onClick={(e) => e.stopPropagation()}
             >
               <EditIcon />
@@ -86,7 +87,7 @@ export function TaskListItem({ task, isSelected = false, onClick, onStatusChange
         </Box>
       }
     >
-      <ListItemButton component={Link} to={`/task/${task.id}`} onClick={onClick}>
+      <ListItemButton component={Link} to={`/app/task/${task.id}`} onClick={onClick}>
         <Box onClick={(e) => e.stopPropagation()}>
           <Checkbox
             edge="start"
@@ -110,7 +111,20 @@ export function TaskListItem({ task, isSelected = false, onClick, onStatusChange
           </IconButton>
         </Tooltip>
         <ListItemText
-          primary={task.title}
+          primary={
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              {task.title}
+              {task.inInbox && (
+                <Chip
+                  icon={<InboxIcon />}
+                  label="Inbox"
+                  size="small"
+                  color="warning"
+                  variant="outlined"
+                />
+              )}
+            </Box>
+          }
           secondary={
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', mt: 0.5 }}>
               <Chip

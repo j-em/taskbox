@@ -22,7 +22,7 @@ async function clickSidebarLink(page: any, linkName: RegExp | string) {
  * Tests app loading, API data fetching, and route navigation.
  */
 test('task list loads and navigation works', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(1000);
 
@@ -30,7 +30,7 @@ test('task list loads and navigation works', async ({ page }) => {
   await expect(page.locator('h1:has-text("All Tasks")')).toBeVisible();
 
   // The "Add Task" button is a link
-  await page.locator('a:has-text("ADD")').click();
+  await page.getByRole('link', { name: 'Add Task' }).click();
   await expect(page).toHaveURL(/\/task\/new/);
   await expect(page.locator('h5, h1, h2').filter({ hasText: /create/i })).toBeVisible();
 });
@@ -42,12 +42,12 @@ test('task list loads and navigation works', async ({ page }) => {
 test('create and update a task', async ({ page }) => {
   const taskName = `Test Task ${Date.now()}`;
 
-  await page.goto('/');
+  await page.goto('/app');
   await ensureSidebarClosed(page);
   await page.waitForTimeout(500);
 
   // Open create task form
-  await page.locator('a:has-text("ADD")').click();
+  await page.getByRole('link', { name: 'Add Task' }).click();
   await expect(page).toHaveURL(/\/task\/new/);
 
   // Fill form fields
@@ -57,7 +57,7 @@ test('create and update a task', async ({ page }) => {
   await page.locator('button:has-text("Create")').click();
 
   // Verify redirect and task appears
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
   await expect(page.getByText(taskName).first()).toBeVisible({ timeout: 5000 });
 
   // Click on task to view details
@@ -66,7 +66,7 @@ test('create and update a task', async ({ page }) => {
   await expect(page.getByText('Test description for E2E')).toBeVisible();
 
   // Navigate back and change status
-  await page.goto('/');
+  await page.goto('/app');
   await ensureSidebarClosed(page);
   await page.waitForTimeout(500);
 
@@ -85,18 +85,18 @@ test('create and update a task', async ({ page }) => {
 test('cancel task and filter views', async ({ page }) => {
   const taskName = `Cancel Task ${Date.now()}`;
 
-  await page.goto('/');
+  await page.goto('/app');
   await ensureSidebarClosed(page);
   await page.waitForTimeout(500);
 
   // Create a task
-  await page.locator('a:has-text("ADD")').click();
+  await page.getByRole('link', { name: 'Add Task' }).click();
   await page.getByLabel(/title/i).fill(taskName);
   await page.getByLabel(/scheduled date/i).fill(new Date().toISOString().split('T')[0]);
   await page.locator('button:has-text("Create")').click();
 
   // Verify task created
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
   await expect(page.getByText(taskName).first()).toBeVisible({ timeout: 5000 });
 
   // Click status button 3 times to get to CANCELLED (TODO -> IN_PROGRESS -> DONE -> CANCELLED)
@@ -128,19 +128,19 @@ test('edit and delete task', async ({ page }) => {
   const taskName = `Edit Task ${Date.now()}`;
   const updatedName = `Updated ${Date.now()}`;
 
-  await page.goto('/');
+  await page.goto('/app');
   await ensureSidebarClosed(page);
   await page.waitForTimeout(500);
 
   // Create a task
-  await page.locator('a:has-text("ADD")').click();
+  await page.getByRole('link', { name: 'Add Task' }).click();
   await page.getByLabel(/title/i).fill(taskName);
   await page.getByLabel(/description/i).fill('Original desc');
   await page.getByLabel(/scheduled date/i).fill(new Date().toISOString().split('T')[0]);
   await page.locator('button:has-text("Create")').click();
 
   // Verify task created
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
   await expect(page.getByText(taskName).first()).toBeVisible({ timeout: 5000 });
 
   // Navigate to task detail
@@ -161,7 +161,7 @@ test('edit and delete task', async ({ page }) => {
   await expect(page.getByText(updatedName).first()).toBeVisible();
 
   // Go back to list
-  await page.goto('/');
+  await page.goto('/app');
   await ensureSidebarClosed(page);
   await page.waitForTimeout(500);
   await expect(page.getByText(updatedName).first()).toBeVisible();

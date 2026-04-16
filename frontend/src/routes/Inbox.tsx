@@ -1,19 +1,15 @@
 import { useState } from 'react';
 import { Typography, Box, Button, Alert } from '@mui/material';
 import { Add as AddIcon, MoveToInbox as InboxIcon } from '@mui/icons-material';
-import { Link, useSearchParams } from 'react-router';
+import { Link } from 'react-router';
 import { TaskList } from '../features/tasks/TaskList';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { useGetTasksQuery } from '../features/tasks/tasksApi';
-import type { Status } from '../types';
 
-export function Home() {
-  const [searchParams] = useSearchParams();
-  const status = searchParams.get('status') as Status | null;
+export function Inbox() {
   const [selectedTasks, setSelectedTasks] = useState<string[]>([]);
 
-  const filters = status ? { status } : {};
-  const { data, isLoading, error } = useGetTasksQuery(filters);
+  const { data, isLoading, error } = useGetTasksQuery({ inInbox: true });
 
   const handleTaskSelect = (taskId: string) => {
     setSelectedTasks((prev) =>
@@ -21,27 +17,11 @@ export function Home() {
     );
   };
 
-  const getTitle = () => {
-    if (!status) return 'All Tasks';
-    switch (status) {
-      case 'TODO':
-        return 'To Do';
-      case 'IN_PROGRESS':
-        return 'In Progress';
-      case 'DONE':
-        return 'Done';
-      case 'CANCELLED':
-        return 'Cancelled';
-      default:
-        return 'Tasks';
-    }
-  };
-
   return (
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4" component="h1">
-          {getTitle()}
+          Inbox
         </Typography>
         <Box sx={{ display: 'flex', gap: 2 }}>
           <Button

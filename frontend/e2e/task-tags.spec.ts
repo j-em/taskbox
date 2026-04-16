@@ -9,12 +9,12 @@ test('create task with multiple tags and verify display', async ({ page }) => {
   const taskName = `Tagged Task ${Date.now()}`;
   const tags = ['urgent', 'frontend', 'e2e-test', 'playwright'];
 
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(500);
 
   // Navigate to create task form
-  await page.locator('a:has-text("ADD")').click();
+  await page.getByRole('link', { name: 'Add Task' }).click();
   await expect(page).toHaveURL(/\/task\/new/);
 
   // Fill in basic info
@@ -39,7 +39,7 @@ test('create task with multiple tags and verify display', async ({ page }) => {
   await page.locator('button:has-text("Create")').click();
 
   // Verify redirect and task appears
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
   await expect(page.getByText(taskName).first()).toBeVisible({ timeout: 5000 });
 
   // In list view: verify first 3 tags are shown, and "+1" chip for the 4th
@@ -64,7 +64,7 @@ test('create task with multiple tags and verify display', async ({ page }) => {
   }
 
   // Navigate back
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForTimeout(500);
 
   // Clean up: delete the task
@@ -81,12 +81,12 @@ test('edit task tags - add and remove', async ({ page }) => {
   const taskName = `Tag Edit Test ${Date.now()}`;
   const initialTags = ['original', 'tag'];
 
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(500);
 
   // Create a task with initial tags
-  await page.locator('a:has-text("ADD")').click();
+  await page.getByRole('link', { name: 'Add Task' }).click();
   await expect(page).toHaveURL(/\/task\/new/);
 
   await page.getByLabel(/title/i).fill(taskName);
@@ -103,7 +103,7 @@ test('edit task tags - add and remove', async ({ page }) => {
 
   // Create the task
   await page.locator('button:has-text("Create")').click();
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
 
   // Wait for task to appear and click to edit
   const taskItem = page.locator('li', { hasText: taskName }).first();
@@ -135,7 +135,7 @@ test('edit task tags - add and remove', async ({ page }) => {
   await page.locator('button:has-text("Update")').click();
 
   // Form redirects to home page after update
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
 
   // Find the task and click to see details with updated tags
   const updatedTaskItem = page.locator('li', { hasText: taskName }).first();
@@ -150,7 +150,7 @@ test('edit task tags - add and remove', async ({ page }) => {
   await expect(page.getByText('tag').first()).toBeVisible();
 
   // Navigate back and clean up
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForTimeout(500);
 
   const item = page.locator('li', { hasText: taskName }).first();

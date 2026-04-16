@@ -9,17 +9,17 @@ import { cleanupTasks } from './helpers';
 test('browser history navigation maintains state', async ({ page }) => {
   const taskName = `History Nav Test ${Date.now()}`;
 
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(500);
 
   // Create a task
-  await page.locator('a:has-text("ADD")').click();
+  await page.getByRole('link', { name: 'Add Task' }).click();
   await page.getByLabel(/title/i).fill(taskName);
   await page.getByLabel(/description/i).fill('Testing browser navigation');
   await page.getByLabel(/scheduled date/i).fill(new Date().toISOString().split('T')[0]);
   await page.locator('button:has-text("Create")').click();
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
   await expect(page.getByText(taskName).first()).toBeVisible({ timeout: 5000 });
 
   // Click on task to navigate to detail view
@@ -43,7 +43,7 @@ test('browser history navigation maintains state', async ({ page }) => {
   // Click browser back again - should return to home
   await page.goBack();
   await page.waitForTimeout(500);
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
   await expect(page.getByText(taskName).first()).toBeVisible();
 
   // Click browser forward - should go to detail view again
@@ -53,7 +53,7 @@ test('browser history navigation maintains state', async ({ page }) => {
   await expect(page.getByText(taskName).first()).toBeVisible();
 
   // Navigate back home for cleanup
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForTimeout(500);
 
   // Clean up
@@ -63,17 +63,17 @@ test('browser history navigation maintains state', async ({ page }) => {
 test('click task title navigates to detail view', async ({ page }) => {
   const taskName = `Navigation Test ${Date.now()}`;
 
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(500);
 
   // Create a task first
-  await page.locator('a:has-text("ADD")').click();
+  await page.getByRole('link', { name: 'Add Task' }).click();
   await page.getByLabel(/title/i).fill(taskName);
   await page.getByLabel(/description/i).fill('Testing navigation via title click');
   await page.getByLabel(/scheduled date/i).fill(new Date().toISOString().split('T')[0]);
   await page.locator('button:has-text("Create")').click();
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
 
   // Find the task
   const taskItem = page.locator('li', { hasText: taskName }).first();
@@ -91,7 +91,7 @@ test('click task title navigates to detail view', async ({ page }) => {
   await expect(page.getByText('Testing navigation via title click')).toBeVisible();
 
   // Navigate back and clean up
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForTimeout(500);
 
   const deleteItem = page.locator('li', { hasText: taskName }).first();
@@ -106,16 +106,16 @@ test('click task title navigates to detail view', async ({ page }) => {
 test('keyboard navigation through app interface', async ({ page }) => {
   const taskName = `Keyboard Test ${Date.now()}`;
 
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(500);
 
   // Create a task first
-  await page.locator('a:has-text("ADD")').click();
+  await page.getByRole('link', { name: 'Add Task' }).click();
   await page.getByLabel(/title/i).fill(taskName);
   await page.getByLabel(/scheduled date/i).fill(new Date().toISOString().split('T')[0]);
   await page.locator('button:has-text("Create")').click();
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
   await expect(page.getByText(taskName).first()).toBeVisible({ timeout: 5000 });
 
   // Focus the sidebar button and test keyboard interaction
@@ -148,7 +148,7 @@ test('keyboard navigation through app interface', async ({ page }) => {
   await expect(page.getByText(taskName).first()).toBeVisible();
 
   // Navigate back home
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForTimeout(500);
 
   // Clean up
@@ -172,7 +172,7 @@ test('404 page provides working navigation back home', async ({ page }) => {
 
   // Click the button and verify navigation
   await goHomeButton.click();
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
 
   // Verify we're on the home page by checking for "All Tasks" heading
   await expect(page.getByText('All Tasks').first()).toBeVisible();

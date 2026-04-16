@@ -8,12 +8,12 @@ test('TaskList checkboxes reflect selectedTasks prop state', async ({ page }) =>
   // Create a task first so we have something to test with
   const taskName = `Selection Test Task ${Date.now()}`;
 
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(1000);
 
   // Create a new task
-  await page.locator('a:has-text("ADD")').click();
+  await page.getByRole('link', { name: 'Add Task' }).click();
   await expect(page).toHaveURL(/\/task\/new/);
 
   await page.getByLabel(/title/i).fill(taskName);
@@ -22,7 +22,7 @@ test('TaskList checkboxes reflect selectedTasks prop state', async ({ page }) =>
   await page.locator('button:has-text("Create")').click();
 
   // Verify redirect and task appears
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
   await expect(page.getByText(taskName).first()).toBeVisible({ timeout: 5000 });
 
   // Find the task item
@@ -43,23 +43,23 @@ test('TaskList renders multiple tasks with independent checkbox states', async (
   const taskName1 = `Multi Task 1 ${Date.now()}`;
   const taskName2 = `Multi Task 2 ${Date.now()}`;
 
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForLoadState('networkidle');
 
   // Create first task
-  await page.locator('a:has-text("ADD")').click();
+  await page.getByRole('link', { name: 'Add Task' }).click();
   await page.getByLabel(/title/i).fill(taskName1);
   await page.getByLabel(/scheduled date/i).fill(new Date().toISOString().split('T')[0]);
   await page.locator('button:has-text("Create")').click();
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
   await expect(page.getByText(taskName1).first()).toBeVisible({ timeout: 5000 });
 
   // Create second task
-  await page.locator('a:has-text("ADD")').click();
+  await page.getByRole('link', { name: 'Add Task' }).click();
   await page.getByLabel(/title/i).fill(taskName2);
   await page.getByLabel(/scheduled date/i).fill(new Date().toISOString().split('T')[0]);
   await page.locator('button:has-text("Create")').click();
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
   await expect(page.getByText(taskName2).first()).toBeVisible({ timeout: 5000 });
 
   // Find both task items

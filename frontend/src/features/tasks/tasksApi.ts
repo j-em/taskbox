@@ -17,6 +17,7 @@ export const tasksApi = createApi({
           if (filters.scheduledDate) params.append('scheduledDate', filters.scheduledDate);
           if (filters.tag) params.append('tag', filters.tag);
           if (filters.search) params.append('search', filters.search);
+          if (filters.inInbox !== undefined) params.append('inInbox', String(filters.inInbox));
         }
         return `/tasks?${params.toString()}`;
       },

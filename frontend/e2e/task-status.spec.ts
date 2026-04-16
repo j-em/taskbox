@@ -9,16 +9,16 @@ import { cleanupTasks } from './helpers';
 test('status can be cycled through all states', async ({ page }) => {
   const taskName = `Status Cycle Test ${Date.now()}`;
 
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(500);
 
   // Create a task
-  await page.locator('a:has-text("ADD")').click();
+  await page.getByRole('link', { name: 'Add Task' }).click();
   await page.getByLabel(/title/i).fill(taskName);
   await page.getByLabel(/scheduled date/i).fill(new Date().toISOString().split('T')[0]);
   await page.locator('button:has-text("Create")').click();
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
   await expect(page.getByText(taskName).first()).toBeVisible({ timeout: 5000 });
 
   // Find the task and its status button
@@ -34,12 +34,12 @@ test('status can be cycled through all states', async ({ page }) => {
 
   // After 4 clicks, should be back to TODO
   // Navigate to To Do view to verify
-  await page.goto('/?status=TODO');
+  await page.goto('/app/home?status=TODO');
   await page.waitForTimeout(500);
   await expect(page.getByText(taskName).first()).toBeVisible();
 
   // Navigate to Cancelled view to make sure it's NOT there
-  await page.goto('/?status=CANCELLED');
+  await page.goto('/app/home?status=CANCELLED');
   await page.waitForTimeout(500);
   // Task should not be visible in cancelled view after cycling back to TODO
   // But it might be there if the last click didn't register
@@ -47,7 +47,7 @@ test('status can be cycled through all states', async ({ page }) => {
   await expect(page.getByText(/cancelled/i).first()).toBeVisible();
 
   // Clean up - go back to home and delete
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForTimeout(500);
   await cleanupTasks(page, [taskName]);
 });
@@ -55,12 +55,12 @@ test('status can be cycled through all states', async ({ page }) => {
 test('change task status via dropdown in edit form', async ({ page }) => {
   const taskName = `Status Change Test ${Date.now()}`;
 
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(500);
 
   // Create a task with TODO status
-  await page.locator('a:has-text("ADD")').click();
+  await page.getByRole('link', { name: 'Add Task' }).click();
   await expect(page).toHaveURL(/\/task\/new/);
 
   await page.getByLabel(/title/i).fill(taskName);
@@ -68,7 +68,7 @@ test('change task status via dropdown in edit form', async ({ page }) => {
   await page.getByLabel(/scheduled date/i).fill(new Date().toISOString().split('T')[0]);
   // Keep default TODO status
   await page.locator('button:has-text("Create")').click();
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
 
   // Wait for task to appear and click edit
   const taskItem = page.locator('li', { hasText: taskName }).first();
@@ -88,7 +88,7 @@ test('change task status via dropdown in edit form', async ({ page }) => {
 
   // Update the task
   await page.locator('button:has-text("Update")').click();
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
 
   // Verify task now shows DONE status in the list
   const updatedItem = page.locator('li', { hasText: taskName }).first();
@@ -100,7 +100,7 @@ test('change task status via dropdown in edit form', async ({ page }) => {
   await expect(page.getByText('DONE').first()).toBeVisible();
 
   // Navigate back and clean up
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForTimeout(500);
 
   const deleteItem = page.locator('li', { hasText: taskName }).first();
@@ -115,16 +115,16 @@ test('change task status via dropdown in edit form', async ({ page }) => {
 test('task item has status icon button', async ({ page }) => {
   const taskName = `Status Icon Test ${Date.now()}`;
 
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(500);
 
   // Create a task
-  await page.locator('a:has-text("ADD")').click();
+  await page.getByRole('link', { name: 'Add Task' }).click();
   await page.getByLabel(/title/i).fill(taskName);
   await page.getByLabel(/scheduled date/i).fill(new Date().toISOString().split('T')[0]);
   await page.locator('button:has-text("Create")').click();
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL(/\/app\/home/);
 
   // Find the task and verify status icon button exists
   const taskItem = page.locator('li', { hasText: taskName }).first();
@@ -138,7 +138,7 @@ test('task item has status icon button', async ({ page }) => {
   await expect(taskItem.getByText('To Do')).toBeVisible();
 
   // Clean up
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForTimeout(500);
   const deleteItem = page.locator('li', { hasText: taskName }).first();
   if (await deleteItem.isVisible().catch(() => false)) {

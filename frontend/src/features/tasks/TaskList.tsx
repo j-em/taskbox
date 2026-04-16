@@ -30,10 +30,10 @@ export function TaskList({ tasks, selectedTasks = [], onTaskSelect }: TaskListPr
     return (
       <Paper sx={{ p: 4, textAlign: 'center' }}>
         <Typography variant="h6" color="text.secondary">
-          No tasks found
+          {'No tasks found'}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Create a new task to get started
+          {'Create a new task to get started'}
         </Typography>
       </Paper>
     );

@@ -28,6 +28,7 @@ function toTaskDTO(dbTask: any): Task {
     status: dbTask.status as Status,
     scheduledDate: dbTask.scheduledDate.toISOString(),
     tags: JSON.parse(dbTask.tags),
+    inInbox: dbTask.inInbox,
     createdAt: dbTask.createdAt.toISOString(),
     updatedAt: dbTask.updatedAt.toISOString(),
   };
@@ -45,6 +46,7 @@ export class TaskService {
         status: data.status ?? 'TODO',
         scheduledDate: scheduledDateUTC,
         tags: JSON.stringify(normalizedTags),
+        inInbox: data.inInbox ?? false,
       },
     });
 
@@ -81,6 +83,7 @@ export class TaskService {
         status: data.status,
         scheduledDate: scheduledDateUTC,
         tags: JSON.stringify(normalizedTags),
+        inInbox: data.inInbox ?? false,
       },
     });
 
@@ -107,6 +110,7 @@ export class TaskService {
       status,
       tag,
       search,
+      inInbox,
     } = filters;
 
     const validSortFields = ['createdAt', 'scheduledDate', 'title', 'status'];
@@ -117,6 +121,10 @@ export class TaskService {
 
     // Build where clause
     const where: any = {};
+
+    if (inInbox !== undefined) {
+      where.inInbox = inInbox;
+    }
 
     if (status) {
       where.status = status.toUpperCase();
@@ -223,6 +231,7 @@ export class TaskService {
       if (status) cursorData.status = status;
       if (tag) cursorData.tag = tag;
       if (search) cursorData.search = search;
+      if (inInbox !== undefined) cursorData.inInbox = inInbox;
       if (sortField !== 'createdAt') cursorData.sort = sortField;
       if (sortOrder !== 'desc') cursorData.order = sortOrder;
 

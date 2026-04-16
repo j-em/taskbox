@@ -64,6 +64,7 @@ export class TaskController {
       if (req.query.status) filters.status = req.query.status as Status;
       if (req.query.tag) filters.tag = req.query.tag as string;
       if (req.query.search) filters.search = req.query.search as string;
+      if (req.query.inInbox !== undefined) filters.inInbox = req.query.inInbox === 'true';
 
       const sort: ListTasksSort = {};
       if (req.query.sort) sort.sort = req.query.sort as any;

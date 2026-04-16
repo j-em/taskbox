@@ -88,7 +88,7 @@ test('loading spinner appears during data fetch', async ({ page }) => {
 });
 
 test('empty state shows when no tasks exist for filter', async ({ page }) => {
-  await page.goto('/?status=CANCELLED');
+  await page.goto('/app/home?status=CANCELLED');
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(800);
 
@@ -100,7 +100,7 @@ test('empty state shows when no tasks exist for filter', async ({ page }) => {
   await expect(page.locator('a:has-text("ADD"), button:has-text("Add")').first()).toBeVisible();
 
   // Navigate to a view that should have tasks
-  await page.goto('/');
+  await page.goto('/app');
   await page.waitForTimeout(500);
 
   // Verify tasks are shown (we've created tasks in previous tests)

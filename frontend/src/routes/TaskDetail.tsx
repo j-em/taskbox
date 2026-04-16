@@ -89,7 +89,7 @@ export function TaskDetail() {
               variant="outlined"
               startIcon={<EditIcon />}
               component={Link}
-              to={`/task/${task.id}/edit`}
+              to={`/app/task/${task.id}/edit`}
             >
               Edit
             </Button>

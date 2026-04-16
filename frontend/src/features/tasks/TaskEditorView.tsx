@@ -14,6 +14,8 @@ import {
   InputLabel,
   Select,
   SelectChangeEvent,
+  Switch,
+  FormControlLabel,
 } from '@mui/material';
 import { ArrowBack as BackIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
@@ -27,11 +29,13 @@ export interface TaskFormData {
   status: Status;
   scheduledDate: string;
   tags: string[];
+  inInbox?: boolean;
 }
 
 interface TaskEditorViewProps {
   initialData: TaskFormData;
   isEditing: boolean;
+  isInboxMode?: boolean;
   onSave: (data: TaskFormData) => void | Promise<void>;
   onCancel: () => void;
   onDelete?: () => void;
@@ -43,6 +47,7 @@ interface TaskEditorViewProps {
 
 export function TaskEditorView({
   isEditing,
+  isInboxMode = false,
   initialData,
   onSave,
   onCancel,
@@ -109,8 +114,14 @@ export function TaskEditorView({
 
       <Paper sx={{ p: 4 }}>
         <Typography variant="h5" component="h1" gutterBottom>
-          {isEditing ? 'Edit Task' : 'Create New Task'}
+          {isEditing ? (isInboxMode ? 'Edit Inbox Task' : 'Edit Task') : (isInboxMode ? 'Quick Add to Inbox' : 'Create New Task')}
         </Typography>
+
+        {isInboxMode && (
+          <Alert severity="info" sx={{ mb: 2 }}>
+            {isEditing ? 'This task is in your inbox. You can promote it by unchecking "In Inbox" below.' : 'This will be added to your inbox for later refinement.'}
+          </Alert>
+        )}
 
         {displayError && (
           <Alert severity="error" sx={{ mb: 2 }}>
@@ -193,6 +204,18 @@ export function TaskEditorView({
                   />
                 ))}
               </Box>
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={formData.inInbox ?? false}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, inInbox: e.target.checked }))}
+                  />
+                }
+                label="In Inbox"
+              />
             </Grid>
 
             <Grid size={{ xs: 12 }}>

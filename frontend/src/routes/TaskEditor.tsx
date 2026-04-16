@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, useSearchParams } from "react-router";
 import {
   useGetTaskQuery,
   useAddTaskMutation,
@@ -11,12 +11,15 @@ import { TaskEditorView, TaskFormData } from "../features/tasks/TaskEditorView";
 export function TaskEditor() {
   const { taskId } = useParams<{ taskId: string }>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const isEditing = Boolean(taskId && taskId !== "new");
 
   const { data: existingTask, isLoading: isLoadingTask } = useGetTaskQuery(
     taskId || "",
     { skip: !isEditing },
   );
+
+  const isInboxMode = searchParams.get("inbox") === "true" || (!!existingTask?.inInbox);
 
   const [addTask, { isLoading: isAdding }] = useAddTaskMutation();
   const [updateTask, { isLoading: isUpdating }] = useUpdateTaskMutation();
@@ -32,6 +35,7 @@ export function TaskEditor() {
           status: existingTask.status,
           scheduledDate: existingTask.scheduledDate.split("T")[0],
           tags: existingTask.tags,
+          inInbox: existingTask.inInbox,
         }
       : {
           title: "",
@@ -39,6 +43,7 @@ export function TaskEditor() {
           status: "TODO",
           scheduledDate: new Date().toISOString().split("T")[0],
           tags: [],
+          inInbox: searchParams.get("inbox") === "true",
         };
 
   const handleSave = async (data: TaskFormData) => {
@@ -50,6 +55,7 @@ export function TaskEditor() {
       status: data.status,
       scheduledDate: new Date(data.scheduledDate).toISOString(),
       tags: data.tags,
+      inInbox: data.inInbox ?? false,
     };
 
     try {
@@ -58,14 +64,14 @@ export function TaskEditor() {
       } else {
         await addTask(taskData).unwrap();
       }
-      navigate("/");
+      navigate("/app");
     } catch {
       setError("Failed to save task. Please try again.");
     }
   };
 
   const handleCancel = () => {
-    navigate("/");
+    navigate("/app");
   };
 
   const handleDelete = async () => {
@@ -74,7 +80,7 @@ export function TaskEditor() {
 
     try {
       await deleteTask(taskId).unwrap();
-      navigate("/");
+      navigate("/app");
     } catch {
       setError("Failed to delete task. Please try again.");
     }
@@ -92,6 +98,7 @@ export function TaskEditor() {
     <TaskEditorView
       initialData={initialData}
       isEditing={isEditing}
+      isInboxMode={isInboxMode}
       onSave={handleSave}
       onCancel={handleCancel}
       onDelete={isEditing ? handleDelete : undefined}

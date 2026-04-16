@@ -7,6 +7,7 @@ export interface Task {
   status: Status;
   scheduledDate: string;
   tags: string[];
+  inInbox: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -17,6 +18,7 @@ export interface CreateTaskInput {
   status?: Status;
   scheduledDate: string;
   tags?: string[];
+  inInbox?: boolean;
 }
 
 export interface UpdateTaskInput {
@@ -25,6 +27,7 @@ export interface UpdateTaskInput {
   status: Status;
   scheduledDate: string;
   tags: string[];
+  inInbox?: boolean;
 }
 
 export interface ListTasksFilters {
@@ -32,6 +35,7 @@ export interface ListTasksFilters {
   status?: Status;
   tag?: string;
   search?: string;
+  inInbox?: boolean;
 }
 
 export interface ListTasksSort {
@@ -52,4 +56,4 @@ export interface PaginatedResponse<T> {
   };
 }
 
-export type TaskView = 'all' | 'todo' | 'in_progress' | 'done' | 'cancelled';
+export type TaskView = 'all' | 'inbox' | 'todo' | 'in_progress' | 'done' | 'cancelled';

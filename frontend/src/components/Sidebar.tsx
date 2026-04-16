@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import {
   Inbox as InboxIcon,
+  Folder as AllIcon,
   Assignment as TodoIcon,
   PlayCircle as InProgressIcon,
   CheckCircle as DoneIcon,
@@ -32,11 +33,12 @@ interface SidebarItem {
 }
 
 const sidebarItems: SidebarItem[] = [
-  { label: 'All Tasks', view: 'all', icon: <InboxIcon />, href: '/' },
-  { label: 'To Do', view: 'todo', icon: <TodoIcon />, href: '/?status=TODO' },
-  { label: 'In Progress', view: 'in_progress', icon: <InProgressIcon />, href: '/?status=IN_PROGRESS' },
-  { label: 'Done', view: 'done', icon: <DoneIcon />, href: '/?status=DONE' },
-  { label: 'Cancelled', view: 'cancelled', icon: <CancelledIcon />, href: '/?status=CANCELLED' },
+  { label: 'Inbox', view: 'inbox', icon: <InboxIcon />, href: '/app/inbox' },
+  { label: 'All Tasks', view: 'all', icon: <AllIcon />, href: '/app/home' },
+  { label: 'To Do', view: 'todo', icon: <TodoIcon />, href: '/app/home?status=TODO' },
+  { label: 'In Progress', view: 'in_progress', icon: <InProgressIcon />, href: '/app/home?status=IN_PROGRESS' },
+  { label: 'Done', view: 'done', icon: <DoneIcon />, href: '/app/home?status=DONE' },
+  { label: 'Cancelled', view: 'cancelled', icon: <CancelledIcon />, href: '/app/home?status=CANCELLED' },
 ];
 
 export function Sidebar() {
@@ -70,7 +72,7 @@ export function Sidebar() {
         <ListItem disablePadding>
           <ListItemButton
             component={Link}
-            to="/task/new"
+            to="/app/task/new"
             onClick={() => handleClose()}
           >
             <ListItemIcon>
@@ -86,7 +88,10 @@ export function Sidebar() {
               component={Link}
               to={item.href}
               onClick={() => handleItemClick(item.view)}
-              selected={location.search === item.href.replace('/', '')}
+              selected={
+                location.pathname + location.search === item.href ||
+                (location.pathname === item.href && location.search === '')
+              }
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.label} />

@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "e2e": "playwright test",
+    "e2e": "playwright test --grep-invert 'generate screenshots'",
     "e2e:ui": "playwright test --ui",
     "type-check": "tsc --noEmit",
     "generate-screenshots": "playwright test e2e/generate-screenshots.spec.ts --project=chromium"
