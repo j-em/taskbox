@@ -6,6 +6,8 @@ import { Today } from './routes/Today';
 import { Anytime } from './routes/Anytime';
 import { TaskDetail } from './routes/TaskDetail';
 import { TaskEditor } from './routes/TaskEditor';
+import { Settings } from './routes/Settings';
+import { SettingsAbout } from './routes/SettingsAbout';
 import { NotFound } from './routes/NotFound';
 
 export function AppRouter() {
@@ -25,6 +27,8 @@ export function AppRouter() {
         { path: 'task/new', element: <TaskEditor /> },
         { path: 'task/:taskId', element: <TaskDetail /> },
         { path: 'task/:taskId/edit', element: <TaskEditor /> },
+        { path: 'settings', element: <Settings /> },
+        { path: 'settings/about', element: <SettingsAbout /> },
         { index: true, element: <Navigate to="home" replace /> },
         { path: '*', element: <NotFound /> },
       ],

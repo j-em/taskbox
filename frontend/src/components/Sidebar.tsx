@@ -19,6 +19,7 @@ import {
   CheckCircle as DoneIcon,
   Cancel as CancelledIcon,
   Add as AddIcon,
+  Settings as SettingsIcon,
 } from '@mui/icons-material';
 import { Link, useLocation } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
@@ -102,6 +103,20 @@ export function Sidebar() {
             </ListItemButton>
           </ListItem>
         ))}
+        <Divider sx={{ my: 1 }} />
+        <ListItem disablePadding>
+          <ListItemButton
+            component={Link}
+            to="/app/settings"
+            onClick={() => handleClose()}
+            selected={location.pathname.startsWith('/app/settings')}
+          >
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Settings" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
