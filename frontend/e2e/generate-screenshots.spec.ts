@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, Page } from '@playwright/test';
 import type { Task } from '../src/types';
 
 // Viewport sizes based on Tailwind CSS default breakpoints
@@ -62,7 +62,7 @@ async function takeScreenshot(page: Page, viewName: string, theme: ThemeMode, vi
 /**
  * Helper to create a task via API for screenshot testing
  */
-async function createTask(baseURL: string): Promise<Task> {
+async function createTask(): Promise<Task> {
   const taskData = {
     title: 'Screenshot Sample Task',
     description: 'This is a sample task for screenshot generation. It demonstrates the task detail view with all the information displayed properly.',
@@ -98,14 +98,11 @@ async function deleteTask(taskId: string) {
 
 test.describe.configure({ mode: 'serial' });
 
-test('generate screenshots for all views, themes, and viewports', async ({ page, baseURL }) => {
-  // Ensure baseURL is available
-  const url = baseURL || 'http://localhost:5173';
-  
+test('generate screenshots for all views, themes, and viewports', async ({ page }) => {
   // Create a sample task for detail and edit screenshots
   let sampleTask: Task | null = null;
   try {
-    sampleTask = await createTask(url);
+    sampleTask = await createTask();
   } catch (e) {
     console.warn('Could not create task via API, screenshots will skip task detail/edit:', e);
   }

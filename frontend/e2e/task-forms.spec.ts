@@ -70,8 +70,8 @@ test('cancel button discards form changes', async ({ page }) => {
   await page.getByLabel(/title/i).fill(`${taskName} MODIFIED`);
   await page.getByLabel(/description/i).fill('Modified description');
   
-  // Click Cancel link - use first() to pick the form cancel button (not sidebar)
-  await page.locator('a:has-text("Cancel")').first().click();
+  // Click Cancel button
+  await page.getByRole('button', { name: /cancel/i }).click();
   
   // Should return to home (not detail view, since we came from list)
   await expect(page).toHaveURL('/');

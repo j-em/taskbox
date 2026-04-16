@@ -7,7 +7,7 @@ import { theme, darkTheme } from './theme/theme';
 import { Root } from './routes/Root';
 import { Home } from './routes/Home';
 import { TaskDetail } from './routes/TaskDetail';
-import { TaskForm } from './routes/TaskForm';
+import { TaskEditor } from './routes/TaskEditor';
 import { NotFound } from './routes/NotFound';
 import { useAppSelector } from './app/hooks';
 
@@ -21,9 +21,9 @@ function AppContent() {
       element: <Root />,
       children: [
         { index: true, element: <Home /> },
-        { path: 'task/new', element: <TaskForm /> },
+        { path: 'task/new', element: <TaskEditor /> },
         { path: 'task/:taskId', element: <TaskDetail /> },
-        { path: 'task/:taskId/edit', element: <TaskForm /> },
+        { path: 'task/:taskId/edit', element: <TaskEditor /> },
         { path: '*', element: <NotFound /> },
       ],
     },
