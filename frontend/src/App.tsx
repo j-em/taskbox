@@ -1,38 +1,19 @@
-import { createBrowserRouter, RouterProvider } from 'react-router';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import { theme, darkTheme } from './theme/theme';
-import { Root } from './routes/Root';
-import { Home } from './routes/Home';
-import { TaskDetail } from './routes/TaskDetail';
-import { TaskEditor } from './routes/TaskEditor';
-import { NotFound } from './routes/NotFound';
+import { AppRouter } from './AppRouter';
 import { useAppSelector } from './app/hooks';
 
 function AppContent() {
   const themeMode = useAppSelector((state) => state.ui.themeMode);
   const currentTheme = themeMode === 'dark' ? darkTheme : theme;
 
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <Root />,
-      children: [
-        { index: true, element: <Home /> },
-        { path: 'task/new', element: <TaskEditor /> },
-        { path: 'task/:taskId', element: <TaskDetail /> },
-        { path: 'task/:taskId/edit', element: <TaskEditor /> },
-        { path: '*', element: <NotFound /> },
-      ],
-    },
-  ]);
-
   return (
     <ThemeProvider theme={currentTheme}>
       <CssBaseline />
-      <RouterProvider router={router} />
+      <AppRouter />
     </ThemeProvider>
   );
 }
