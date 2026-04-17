@@ -8,6 +8,7 @@ import { TaskDetail } from './routes/TaskDetail';
 import { TaskEditor } from './routes/TaskEditor';
 import { Settings } from './routes/Settings';
 import { SettingsAbout } from './routes/SettingsAbout';
+import { TaskSearch } from './features/tasks/TaskSearch';
 import { NotFound } from './routes/NotFound';
 
 export function AppRouter() {
@@ -29,6 +30,7 @@ export function AppRouter() {
         { path: 'task/:taskId/edit', element: <TaskEditor /> },
         { path: 'settings', element: <Settings /> },
         { path: 'settings/about', element: <SettingsAbout /> },
+        { path: 'search', element: <TaskSearch /> },
         { index: true, element: <Navigate to="home" replace /> },
         { path: '*', element: <NotFound /> },
       ],

@@ -20,6 +20,7 @@ import {
   Cancel as CancelledIcon,
   Add as AddIcon,
   Settings as SettingsIcon,
+  Search as SearchIcon,
 } from '@mui/icons-material';
 import { Link, useLocation } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
@@ -36,6 +37,7 @@ interface SidebarItem {
 }
 
 const sidebarItems: SidebarItem[] = [
+  { label: 'Search', view: 'search', icon: <SearchIcon />, href: '/app/search' },
   { label: 'Inbox', view: 'inbox', icon: <InboxIcon />, href: '/app/inbox' },
   { label: 'Today', view: 'today', icon: <TodayIcon />, href: '/app/today' },
   { label: 'Anytime', view: 'anytime', icon: <WatchLater />, href: '/app/anytime' },
