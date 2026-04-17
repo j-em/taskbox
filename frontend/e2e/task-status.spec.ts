@@ -117,6 +117,55 @@ test('change task status via dropdown in edit form', async ({ page }) => {
   }
 });
 
+test('UI shows updated status after each click in All Tasks list', async ({ page }) => {
+  const taskName = `UI Status Update Test ${Date.now()}`;
+
+  await page.goto('/app');
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(500);
+
+  // Create a task
+  await page.getByRole('link', { name: 'Add Task' }).click();
+  await page.getByLabel(/title/i).fill(taskName);
+  await page.getByLabel(/scheduled date/i).fill(new Date().toISOString().split('T')[0]);
+  await page.locator('button:has-text("Create")').click();
+  await expect(page).toHaveURL(/\/app\/home/);
+  await expect(page.getByText(taskName).first()).toBeVisible({ timeout: 5000 });
+
+  // Helper to get fresh task item locator (needed because React re-renders after status change)
+  const getTaskItem = () => page.locator('li', { hasText: taskName }).first();
+  // Helper to get status button from fresh task item (first button in the list item)
+  const getStatusButton = () => getTaskItem().locator('button').first();
+
+  // Verify initial status shows "To Do"
+  await expect(getTaskItem().getByText('To Do')).toBeVisible();
+
+  // Click 1: TODO -> IN_PROGRESS - verify UI shows "In Progress"
+  await getStatusButton().click();
+  await expect(getTaskItem().getByText('In Progress')).toBeVisible({ timeout: 5000 });
+  await expect(getTaskItem().getByText('To Do')).not.toBeVisible();
+
+  // Click 2: IN_PROGRESS -> DONE - verify UI shows "Done"
+  await getStatusButton().click();
+  await expect(getTaskItem().getByText('Done')).toBeVisible({ timeout: 5000 });
+  await expect(getTaskItem().getByText('In Progress')).not.toBeVisible();
+
+  // Click 3: DONE -> CANCELLED - verify UI shows "Cancelled"
+  await getStatusButton().click();
+  await expect(getTaskItem().getByText('Cancelled')).toBeVisible({ timeout: 5000 });
+  await expect(getTaskItem().getByText('Done')).not.toBeVisible();
+
+  // Click 4: CANCELLED -> TODO - verify UI shows "To Do" again
+  await getStatusButton().click();
+  await expect(getTaskItem().getByText('To Do')).toBeVisible({ timeout: 5000 });
+  await expect(getTaskItem().getByText('Cancelled')).not.toBeVisible();
+
+  // Clean up
+  await page.goto('/app');
+  await page.waitForTimeout(500);
+  await cleanupTasks(page, [taskName]);
+});
+
 test('task item has status icon button', async ({ page }) => {
   const taskName = `Status Icon Test ${Date.now()}`;
 

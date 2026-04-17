@@ -24,7 +24,7 @@ interface TaskListItemProps {
   task: Task;
   isSelected?: boolean;
   onClick?: () => void;
-  onStatusChange?: (taskId: string, currentStatus: Status) => void;
+  onStatusChange?: (task: Task) => void;
   onDelete?: (taskId: string) => void;
 }
 
@@ -46,7 +46,7 @@ export function TaskListItem({ task, isSelected = false, onClick, onStatusChange
   const { icon, color } = statusConfig[task.status];
 
   const handleStatusChange = () => {
-    onStatusChange?.(task.id, task.status);
+    onStatusChange?.(task);
   };
 
   const handleDelete = (e: React.MouseEvent) => {

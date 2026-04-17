@@ -3,7 +3,7 @@ export type Status = 'TODO' | 'IN_PROGRESS' | 'DONE' | 'CANCELLED';
 export interface Task {
   id: string;
   title: string;
-  description: string | null;
+  description: string;
   status: Status;
   scheduledDate: string | null;
   tags: string[];

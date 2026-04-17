@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./frontend/public/logo_dark.png" width="400" alt="Taskbox Logo">
+</p>
+
 # Taskbox
 
 Taskbox is a task management application built as a monorepo with a RESTful backend API. It provides a lightweight solution for organizing tasks with features like status tracking, tagging, and date scheduling, using modern web technologies designed for simplicity and ease of deployment.

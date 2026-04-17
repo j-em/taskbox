@@ -1,13 +1,14 @@
 import { Typography, Box, Paper, List, ListItem, ListItemText, Divider, IconButton, Stack } from '@mui/material';
 import { ArrowBack as BackIcon } from '@mui/icons-material';
 import { Link } from 'react-router';
+import packageJson from '../../package.json';
 
-// App information - could be loaded from package.json or environment in production
+// App information loaded from package.json
 const appInfo = {
   name: 'Taskbox',
-  version: '0.0.0',
+  version: packageJson.version,
   description: 'Task Management',
-  author: 'Taskbox Team',
+  author: typeof packageJson.author === 'object' ? packageJson.author.name : packageJson.author,
 };
 
 export function SettingsAbout() {

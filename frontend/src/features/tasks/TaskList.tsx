@@ -13,11 +13,19 @@ export function TaskList({ tasks, selectedTasks = [], onTaskSelect }: TaskListPr
   const [updateTask] = useUpdateTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
 
-  const handleStatusChange = (taskId: string, currentStatus: Status) => {
+  const handleStatusChange = (task: Task) => {
     const statusOrder: Status[] = ['TODO', 'IN_PROGRESS', 'DONE', 'CANCELLED'];
-    const currentIndex = statusOrder.indexOf(currentStatus);
+    const currentIndex = statusOrder.indexOf(task.status);
     const nextStatus = statusOrder[(currentIndex + 1) % statusOrder.length];
-    updateTask({ id: taskId, status: nextStatus });
+    updateTask({
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      status: nextStatus,
+      scheduledDate: task.scheduledDate,
+      tags: task.tags,
+      inInbox: task.inInbox,
+    });
   };
 
   const handleDelete = (taskId: string) => {

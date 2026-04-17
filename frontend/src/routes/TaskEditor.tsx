@@ -45,7 +45,7 @@ export function TaskEditor() {
     isEditing && existingTask
       ? {
           title: existingTask.title,
-          description: existingTask.description || "",
+          description: existingTask.description,
           status: existingTask.status,
           scheduledDate: existingTask.scheduledDate?.split("T")[0] ?? null,
           tags: existingTask.tags,
@@ -65,7 +65,7 @@ export function TaskEditor() {
 
     const taskData = {
       title: data.title.trim(),
-      description: data.description.trim() || undefined,
+      description: data.description.trim(),
       status: data.status,
       scheduledDate: data.scheduledDate ? new Date(data.scheduledDate).toISOString() : null,
       tags: data.tags,

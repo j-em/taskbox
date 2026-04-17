@@ -58,15 +58,15 @@ const createTaskSchema = z.object({
   inInbox: z.boolean().optional().default(false),
 });
 
-// Update task schema - all fields required
+// Update task schema - partial update, most fields optional
 const updateTaskSchema = z.object({
   title: z.string()
     .min(1, 'Title is required')
     .max(200, 'Title must be at most 200 characters')
     .transform(val => val.trim()),
   description: z.string()
-    .max(1000, 'Description must be at most 1000 characters'),
-    // Required, non-nullable, no transform needed
+    .max(1000, 'Description must be at most 1000 characters')
+    .optional(),
   status: statusSchema,
   scheduledDate: z.union([
     z.string().refine((val) => !isNaN(Date.parse(val)), 'Invalid ISO 8601 date format'),

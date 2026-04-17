@@ -14,7 +14,10 @@
     "db:studio": "prisma studio"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Jeremy Allard",
+    "email": "jeremy@allard.io"
+  },
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
