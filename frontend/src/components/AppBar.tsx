@@ -1,7 +1,6 @@
 import {
   AppBar as MuiAppBar,
   Toolbar,
-  Typography,
   IconButton,
   Box,
   Button,
@@ -14,6 +13,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { toggleSidebar, toggleTheme } from '../features/ui/uiSlice';
 import { Link } from 'react-router';
+import { Logo } from './Logo';
 
 export function AppBar() {
   const dispatch = useAppDispatch();
@@ -31,11 +31,11 @@ export function AppBar() {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1 }}>
           <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
-            Taskbox
+            <Logo width={160} variant="dark" />
           </Link>
-        </Typography>
+        </Box>
         <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
           <Button
             color="inherit"

@@ -6,7 +6,6 @@ import {
   ListItemIcon,
   ListItemText,
   Box,
-  Typography,
   Divider,
 } from '@mui/material';
 import {
@@ -22,6 +21,7 @@ import {
   Settings as SettingsIcon,
   Search as SearchIcon,
 } from '@mui/icons-material';
+import { Logo } from './Logo';
 import { Link, useLocation } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { setSidebarOpen, setCurrentView } from '../features/ui/uiSlice';
@@ -66,13 +66,8 @@ export function Sidebar() {
 
   const drawerContent = (
     <Box sx={{ width: DRAWER_WIDTH }}>
-      <Box sx={{ p: 2 }}>
-        <Typography variant="h6" component="div">
-          Taskbox
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Task Management
-        </Typography>
+      <Box sx={{ p: 2, display: 'flex', justifyContent: 'center' }}>
+        <Logo width={160} />
       </Box>
       <Divider />
       <List>
