@@ -26,6 +26,8 @@ export function TaskEditor() {
   const [searchParams] = useSearchParams();
   const isEditing = Boolean(taskId && taskId !== "new");
 
+  const pageTitle = isEditing ? 'Edit Task' : 'New Task';
+
   const { data: existingTask, isLoading: isLoadingTask } = useGetTaskQuery(
     taskId || "",
     { skip: !isEditing },
@@ -105,10 +107,18 @@ export function TaskEditor() {
 
   // Show loading spinner while fetching existing task data for editing
   if (isEditing && (isLoadingTask || !existingTask)) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <title>{`Taskbox | ${pageTitle}`}</title>
+        <div>Loading...</div>
+      </>
+    );
   }
 
   return (
+    <>
+      <title>{`Taskbox | ${pageTitle}`}</title>
+      <meta name="description" content={isEditing ? 'Edit an existing task' : 'Create a new task'} />
     <TaskEditorView
       initialData={initialData}
       isEditing={isEditing}
@@ -120,5 +130,6 @@ export function TaskEditor() {
       isSaving={isSubmitting}
       error={error}
     />
+    </>
   );
 }

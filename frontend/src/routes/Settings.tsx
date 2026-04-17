@@ -13,6 +13,9 @@ const settingsItems = [
 
 export function Settings() {
   return (
+    <>
+      <title>{'Taskbox | Settings'}</title>
+      <meta name="description" content="Configure Taskbox settings" />
     <Box>
       <Typography variant="h4" component="h1" sx={{ mb: 3 }}>
         Settings
@@ -39,5 +42,6 @@ export function Settings() {
         </List>
       </Paper>
     </Box>
+    </>
   );
 }

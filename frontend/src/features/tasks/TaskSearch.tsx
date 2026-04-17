@@ -21,6 +21,9 @@ export function TaskSearch() {
   const filteredTasks = data?.data ?? [];
 
   return (
+    <>
+      <title>{'Taskbox | Search'}</title>
+      <meta name="description" content="Search for tasks in Taskbox" />
     <Box>
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>
@@ -35,5 +38,6 @@ export function TaskSearch() {
         isLoading={isLoading}
       />
     </Box>
+    </>
   );
 }

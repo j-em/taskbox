@@ -48,7 +48,12 @@ export function TaskDetail() {
   };
 
   if (isLoading) {
-    return <LoadingSpinner />;
+    return (
+      <>
+        <title>{'Taskbox | Task'}</title>
+        <LoadingSpinner />
+      </>
+    );
   }
 
   if (error || !task) {
@@ -63,6 +68,9 @@ export function TaskDetail() {
   }
 
   return (
+    <>
+      <title>{`Taskbox | ${task.title}`}</title>
+      <meta name="description" content={task.description || `View task: ${task.title}`} />
     <Box>
       <Button
         component={Link}
@@ -164,5 +172,6 @@ export function TaskDetail() {
         </Grid>
       </Paper>
     </Box>
+    </>
   );
 }

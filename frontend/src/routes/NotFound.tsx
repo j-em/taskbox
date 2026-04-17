@@ -3,6 +3,9 @@ import { Link } from 'react-router';
 
 export function NotFound() {
   return (
+    <>
+      <title>{'Taskbox | Page Not Found'}</title>
+      <meta name="description" content="The requested page could not be found" />
     <Box sx={{ textAlign: 'center', mt: 8 }}>
       <Paper sx={{ p: 6, maxWidth: 500, mx: 'auto' }}>
         <Typography variant="h1" component="h1" gutterBottom>
@@ -23,5 +26,6 @@ export function NotFound() {
         </Button>
       </Paper>
     </Box>
+    </>
   );
 }

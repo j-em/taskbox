@@ -37,7 +37,12 @@ export function Home() {
     }
   };
 
+  const pageTitle = getTitle();
+
   return (
+    <>
+      <title>{`Taskbox | ${pageTitle}`}</title>
+      <meta name="description" content={`View and manage ${pageTitle.toLowerCase()} in Taskbox`} />
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4" component="h1">
@@ -81,5 +86,6 @@ export function Home() {
         />
       )}
     </Box>
+    </>
   );
 }

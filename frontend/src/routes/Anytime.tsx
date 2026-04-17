@@ -18,6 +18,9 @@ export function Anytime() {
   };
 
   return (
+    <>
+      <title>{'Taskbox | Anytime'}</title>
+      <meta name="description" content="View and manage unscheduled tasks" />
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4" component="h1">
@@ -61,5 +64,6 @@ export function Anytime() {
         />
       )}
     </Box>
+    </>
   );
 }

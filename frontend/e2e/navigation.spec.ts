@@ -126,15 +126,16 @@ test('keyboard navigation through app interface', async ({ page }) => {
   await page.keyboard.press('Enter');
   await page.waitForTimeout(300);
 
-  // Verify sidebar is visible by checking for sidebar content
-  await expect(page.getByText('Task Management')).toBeVisible();
+  // Verify sidebar is visible by checking for sidebar link that only appears there
+  const sidebarLink = page.getByRole('link', { name: 'All Tasks' });
+  await expect(sidebarLink).toBeVisible();
 
   // Press Escape to close sidebar
   await page.keyboard.press('Escape');
   await page.waitForTimeout(300);
 
-  // Verify sidebar closed - the sidebar content should not be visible
-  await expect(page.getByText('Task Management')).not.toBeVisible();
+  // Verify sidebar closed - the sidebar link should not be visible
+  await expect(sidebarLink).not.toBeVisible();
 
   // Test form field navigation on home page
   // Tab to a task item and press Enter to navigate

@@ -31,6 +31,9 @@ export function Today() {
   };
 
   return (
+    <>
+      <title>{'Taskbox | Today'}</title>
+      <meta name="description" content="View and manage today's scheduled tasks" />
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4" component="h1">
@@ -74,5 +77,6 @@ export function Today() {
         />
       )}
     </Box>
+    </>
   );
 }

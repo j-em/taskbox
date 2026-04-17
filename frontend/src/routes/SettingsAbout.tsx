@@ -12,6 +12,9 @@ const appInfo = {
 
 export function SettingsAbout() {
   return (
+    <>
+      <title>{'Taskbox | About'}</title>
+      <meta name="description" content="About Taskbox application" />
     <Box>
       <Stack direction="row" sx={{ alignItems: 'center', gap: 1, mb: 3 }}>
         <IconButton component={Link} to="/app/settings" aria-label="Back to Settings">
@@ -70,5 +73,6 @@ export function SettingsAbout() {
         </List>
       </Paper>
     </Box>
+    </>
   );
 }
