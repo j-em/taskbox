@@ -109,21 +109,21 @@ test('generate screenshots for all views, themes, and viewports', async ({ page 
 
   // Define all views to screenshot
   const views: Array<{ name: string; path: string; setup?: () => Promise<void> }> = [
-    { name: 'home-all', path: '/' },
-    { name: 'home-todo', path: '/?status=TODO' },
-    { name: 'task-create', path: '/task/new' },
+    { name: 'home-all', path: '/app/home' },
+    { name: 'home-todo', path: '/app/inbox' },
+    { name: 'task-create', path: '/app/task/new' },
   ];
 
   // Add task detail and edit views only if we created a task
   if (sampleTask) {
     views.push(
-      { name: 'task-detail', path: `/task/${sampleTask.id}` },
-      { name: 'task-edit', path: `/task/${sampleTask.id}/edit` }
+      { name: 'task-detail', path: `/app/task/${sampleTask.id}` },
+      { name: 'task-edit', path: `/app/task/${sampleTask.id}/edit` }
     );
   }
 
   // Add 404 page
-  views.push({ name: 'not-found', path: '/nonexistent-route-for-404' });
+  views.push({ name: 'not-found', path: '/app/nonexistent-route-for-404' });
 
   let currentTheme: ThemeMode = 'light';
 
