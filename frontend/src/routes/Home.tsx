@@ -10,9 +10,12 @@ import type { Status } from '../types';
 export function Home() {
   const [searchParams] = useSearchParams();
   const status = searchParams.get('status') as Status | null;
+  const tag = searchParams.get('tag');
   const [selectedTasks, setSelectedTasks] = useState<string[]>([]);
 
-  const filters = status ? { status } : {};
+  const filters: { status?: Status; tag?: string } = {};
+  if (status) filters.status = status;
+  if (tag) filters.tag = tag;
   const { data, isLoading, error } = useGetTasksQuery(filters);
 
   const handleTaskSelect = (taskId: string) => {

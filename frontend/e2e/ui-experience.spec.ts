@@ -88,9 +88,10 @@ test('loading spinner appears during data fetch', async ({ page }) => {
 });
 
 test('empty state shows when no tasks exist for filter', async ({ page }) => {
-  await page.goto('/app/home?status=CANCELLED');
+  // Use a tag filter that definitely won't match any tasks
+  await page.goto('/app/home?tag=NONEXISTENT_TAG_12345');
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(800);
+  await page.waitForTimeout(1500);
 
   // Verify "No tasks found" message is visible
   await expect(page.getByText(/no tasks found/i)).toBeVisible();

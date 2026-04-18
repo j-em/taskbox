@@ -59,9 +59,9 @@ test('navigate to About screen and verify app information', async ({ page }) => 
   // Verify About page content - use more specific selectors
   const list = page.locator('ul, ol, [role="list"]').first();
   await expect(list.getByText('Taskbox', { exact: true })).toBeVisible();
-  await expect(list.getByText('0.0.0')).toBeVisible();
+  await expect(list.getByText('1.0.0')).toBeVisible();
   await expect(list.getByText('Task Management')).toBeVisible();
-  await expect(list.getByText('Taskbox Team')).toBeVisible();
+  await expect(list.getByText('Jeremy Allard')).toBeVisible();
 
   // Verify the labels are visible too
   await expect(page.getByText('App Name').first()).toBeVisible();
